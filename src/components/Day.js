@@ -35,8 +35,8 @@ const EventBlock = styled.div`
   height: ${props => `${props.durationPercentage}%`};
   top: ${props => `${props.startPercentage}%`};
   width: 100%;
-  opacity: 0.5;
-  background: red;
+  background: #19ff0075;
+  padding-left: 3rem;
 `;
 
 const Day = ({ date, events }) => {
@@ -63,23 +63,25 @@ const Day = ({ date, events }) => {
     };
   });
 
-  console.log(eventsBlocks);
-
   return (
     <DayStyled>
       <h2>{date.format("LL")}</h2>
       <ul className="day-blocks">
         {hourBlocks.map(hourBlock => (
-          <Block>
+          <Block key={hourBlock}>
             <div className="indicator">{hourBlock}</div>
             <div className="box"></div>
           </Block>
         ))}
         {eventsBlocks.map(eventBlock => (
           <EventBlock
+            key={eventBlock.startPercentage}
             startPercentage={eventBlock.startPercentage}
             durationPercentage={eventBlock.durationPercentage}
-          ></EventBlock>
+          >
+            <strong>{eventBlock.owner}</strong>
+            <span>{eventBlock.title ? ` - ${eventBlock.title}` : ""}</span>
+          </EventBlock>
         ))}
       </ul>
     </DayStyled>
