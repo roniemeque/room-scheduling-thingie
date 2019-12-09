@@ -9,15 +9,12 @@ const fidelidadeJoiSchema = Joi.object({
 });
 
 export default async (req, res) => {
-  const { body } = req;
-
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Credentials", true);
+  const { query } = req;
 
   const {
     error: validationError,
     value: validatedBody
-  } = fidelidadeJoiSchema.validate({ ...body });
+  } = fidelidadeJoiSchema.validate({ ...query });
 
   if (validationError) return res.status(422).json({ validationError });
 
@@ -32,11 +29,15 @@ export default async (req, res) => {
     // fetching the updated events list
     const events = await collection.find({}).toArray();
 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", true);
     return res.status(200).json({
       insertedId,
       events
     });
   } catch (error) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", true);
     return res.status(500).json({ error });
   }
 };
