@@ -4,27 +4,6 @@ import styled from "styled-components";
 
 import Day from "./Day";
 
-const events = [
-  {
-    startTime: "2019-12-09 10:00",
-    endTime: "2019-12-09 11:30",
-    title: "Reunião legal",
-    owner: "Ronie"
-  },
-  {
-    startTime: "2019-12-09 15:00",
-    endTime: "2019-12-09 16:00",
-    title: "Reunião legal",
-    owner: "Ronie"
-  },
-  {
-    startTime: "2019-12-10 12:00",
-    endTime: "2019-12-10 13:00",
-    title: "Reunião legal",
-    owner: "Ronie"
-  }
-];
-
 const List = styled.ul`
   display: grid;
   grid-auto-flow: column;
@@ -43,18 +22,20 @@ const DaysList = () => {
         .minute(0)
     )
   );
+  const [events, setEvents] = useState([]);
 
   const fetchEvents = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL || ""}/api/hello`
+      `${process.env.REACT_APP_API_BASE_URL || ""}/api/events/week`
     );
     const data = await res.json();
-    console.log(data);
+    setEvents(data.events);
   };
 
   useEffect(() => {
     fetchEvents();
-  }, [""]);
+    console.log("cool");
+  }, []);
 
   return (
     <List>
@@ -63,7 +44,14 @@ const DaysList = () => {
           ({ startTime }) => day.format("L") === moment(startTime).format("L")
         );
 
-        return <Day events={dayEvents} key={day.unix()} date={day}></Day>;
+        return (
+          <Day
+            setEvents={setEvents}
+            events={dayEvents}
+            key={day.unix()}
+            date={day}
+          ></Day>
+        );
       })}
     </List>
   );

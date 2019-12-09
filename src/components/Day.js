@@ -37,9 +37,30 @@ const EventBlock = styled.div`
   width: 100%;
   background: #19ff0075;
   padding-left: 3rem;
+  padding-right: 3rem;
+  font-size: 1.4rem;
+  .apagar {
+    width: 2rem;
+    height: 2rem;
+    background: #737373;
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+      background: red;
+    }
+  }
 `;
 
-const Day = ({ date, events }) => {
+const Day = ({ date, events, setEvents }) => {
   // generating 8 blocks for counting from 8h to 20h
   // since we are starting from 8, just add it
   const hourBlocks = Array.from({ length: 12 }, (_, i) => i + 8);
@@ -63,6 +84,14 @@ const Day = ({ date, events }) => {
     };
   });
 
+  const deleteEvent = async id => {
+    const res = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL || ""}/api/events/delete/${id}`
+    );
+    const data = await res.json();
+    setEvents(data.events);
+  };
+
   return (
     <DayStyled>
       <h2>{date.format("LL")}</h2>
@@ -81,6 +110,12 @@ const Day = ({ date, events }) => {
           >
             <strong>{eventBlock.owner}</strong>
             <span>{eventBlock.title ? ` - ${eventBlock.title}` : ""}</span>
+            <span
+              className="apagar"
+              onClick={() => deleteEvent(eventBlock._id)}
+            >
+              x
+            </span>
           </EventBlock>
         ))}
       </ul>
