@@ -27,6 +27,7 @@ body {
   line-height: 1.6;
   font-family: "Maven Pro", -apple-system, BlinkMacSystemFont, sans-serif;
   color: #3b3b3b;
+  padding: 2rem;
 }
 a {
   text-decoration: none;

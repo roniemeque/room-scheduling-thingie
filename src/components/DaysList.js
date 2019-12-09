@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import styled from "styled-components";
 
@@ -28,20 +28,33 @@ const events = [
 const List = styled.ul`
   display: grid;
   grid-auto-flow: column;
-  grid-gap: 2.5rem;
+  grid-gap: 3.5rem;
   overflow: auto;
+  grid-template-columns: repeat(7, 20rem);
 `;
 
 const DaysList = () => {
   // creating default days starting at 8 for comparison purposes
   const [days] = useState(
-    Array.from({ length: 3 }, (_, i) =>
+    Array.from({ length: 7 }, (_, i) =>
       moment()
         .add(i, "days")
         .hour(8)
         .minute(0)
     )
   );
+
+  const fetchEvents = async () => {
+    const res = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL || ""}/api/hello`
+    );
+    const data = await res.json();
+    console.log(data);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, [""]);
 
   return (
     <List>
