@@ -1,5 +1,9 @@
 {
   "version": 2,
   "name": "p9-sala-reuniao",
-  "scope": "p9digital-dev"
+  "scope": "p9digital-dev",
+  "env": {
+    "MONGODB_URI": "@salareuniao_mongodb_uri",
+    "MONGODB_DBNAME": "@salareuniao_mongodb_dbname"
+  }
 }

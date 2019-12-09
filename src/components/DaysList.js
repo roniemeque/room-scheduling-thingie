@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import styled from "styled-components";
+import CreateEvent from "./CreateEvent";
 
 import Day from "./Day";
 
@@ -34,26 +35,28 @@ const DaysList = () => {
 
   useEffect(() => {
     fetchEvents();
-    console.log("cool");
   }, []);
 
   return (
-    <List>
-      {days.map(day => {
-        const dayEvents = events.filter(
-          ({ startTime }) => day.format("L") === moment(startTime).format("L")
-        );
+    <div>
+      <CreateEvent setEvents={setEvents}></CreateEvent>
+      <List>
+        {days.map(day => {
+          const dayEvents = events.filter(
+            ({ startTime }) => day.format("L") === moment(startTime).format("L")
+          );
 
-        return (
-          <Day
-            setEvents={setEvents}
-            events={dayEvents}
-            key={day.unix()}
-            date={day}
-          ></Day>
-        );
-      })}
-    </List>
+          return (
+            <Day
+              setEvents={setEvents}
+              events={dayEvents}
+              key={day.unix()}
+              date={day}
+            ></Day>
+          );
+        })}
+      </List>
+    </div>
   );
 };
 
