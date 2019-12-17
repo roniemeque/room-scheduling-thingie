@@ -83,7 +83,7 @@ const CreateEvent = ({ setEvents }) => {
           value={date}
           minDate={new Date()}
           maxDate={moment()
-            .add("6", "days")
+            .add("59", "days")
             .toDate()}
         ></DatePicker>
         <TimeRangePicker

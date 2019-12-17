@@ -10,13 +10,13 @@ const List = styled.ul`
   grid-auto-flow: column;
   grid-gap: 3.5rem;
   overflow: auto;
-  grid-template-columns: repeat(7, 20rem);
+  grid-template-columns: repeat(60, 20rem);
 `;
 
 const DaysList = () => {
   // creating default days starting at 8 for comparison purposes
   const [days] = useState(
-    Array.from({ length: 7 }, (_, i) =>
+    Array.from({ length: 60 }, (_, i) =>
       moment()
         .add(i, "days")
         .hour(8)
