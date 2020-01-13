@@ -26,6 +26,8 @@ const DaysList = () => {
   const [events, setEvents] = useState([]);
 
   const fetchEvents = async () => {
+    console.log("Buscando...");
+
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL || ""}/api/events/week`
     );
@@ -35,6 +37,14 @@ const DaysList = () => {
 
   useEffect(() => {
     fetchEvents();
+    window.refreshInterval = window.setInterval(() => {
+      if (!document.hidden) {
+        fetchEvents();
+      }
+    }, 10000);
+    return () => {
+      clearInterval(window.refreshInterval);
+    };
   }, []);
 
   return (
