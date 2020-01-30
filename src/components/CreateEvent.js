@@ -5,6 +5,15 @@ import moment from "moment";
 import axios from "axios";
 import styled from "styled-components";
 
+const splitTime = time => time.split(":");
+
+const comparableMoment = time => {
+  const [hours, minutes] = splitTime(time);
+  return moment()
+    .hour(hours)
+    .minute(minutes);
+};
+
 const ButtonCreate = styled.button`
   margin-left: 1rem;
   background-color: black;
@@ -62,6 +71,22 @@ const CreateEvent = ({ setEvents }) => {
     setEvents(data.events);
   };
 
+  const onRangeUpdate = newTime => {
+    const [newStart] = newTime;
+    const [currentStart] = time;
+
+    if (currentStart !== newStart) {
+      const startTimeMoment = comparableMoment(newStart);
+
+      return setTime([
+        newStart,
+        startTimeMoment.add(1, "hours").format("HH:mm")
+      ]);
+    }
+
+    setTime(newTime);
+  };
+
   return (
     <CreateStyled>
       Adicionar
@@ -85,13 +110,15 @@ const CreateEvent = ({ setEvents }) => {
           maxDate={moment()
             .add("59", "days")
             .toDate()}
+          disableCalendar
         ></DatePicker>
         <TimeRangePicker
           value={time}
-          onChange={newTime => setTime(newTime)}
+          onChange={onRangeUpdate}
           minTime="08:00"
           maxTime="20:00"
           format="HH:mm"
+          disableClock
         />
         <ButtonCreate>Ok</ButtonCreate>
       </form>
