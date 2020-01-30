@@ -60,7 +60,7 @@ const EventBlock = styled.div`
   }
 `;
 
-const Day = ({ date, events, setEvents }) => {
+const Day = ({ date, events, setEvents, setLoading }) => {
   // generating 8 blocks for counting from 8h to 20h
   // since we are starting from 8, just add it
   const hourBlocks = Array.from({ length: 12 }, (_, i) => i + 8);
@@ -85,10 +85,14 @@ const Day = ({ date, events, setEvents }) => {
   });
 
   const deleteEvent = async id => {
+    setLoading(true);
+
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL || ""}/api/events/delete/${id}`
     );
     const data = await res.json();
+
+    setLoading(false);
     setEvents(data.events);
   };
 

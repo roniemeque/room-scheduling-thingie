@@ -43,7 +43,7 @@ const CreateStyled = styled.div`
   }
 `;
 
-const CreateEvent = ({ setEvents }) => {
+const CreateEvent = ({ setEvents, setLoading }) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(["10:00", "11:00"]);
   const [owner, setOwner] = useState("");
@@ -51,6 +51,8 @@ const CreateEvent = ({ setEvents }) => {
 
   const createEvent = async e => {
     e.preventDefault();
+
+    setLoading(true);
 
     const [start, end] = time;
     const startTime = `${moment(date).format("YYYY-MM-DD")} ${start}`;
@@ -69,6 +71,7 @@ const CreateEvent = ({ setEvents }) => {
     );
 
     setEvents(data.events);
+    setLoading(false);
   };
 
   const onRangeUpdate = newTime => {

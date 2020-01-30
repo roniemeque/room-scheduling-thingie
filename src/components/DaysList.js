@@ -24,13 +24,18 @@ const DaysList = () => {
     )
   );
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchEvents = async () => {
+    setLoading(true);
+    console.log("buscando...");
+
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL || ""}/api/events/week`
     );
     const data = await res.json();
     setEvents(data.events);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -39,7 +44,7 @@ const DaysList = () => {
       if (!document.hidden) {
         fetchEvents();
       }
-    }, 10000);
+    }, 60000);
     return () => {
       clearInterval(window.refreshInterval);
     };
@@ -47,7 +52,10 @@ const DaysList = () => {
 
   return (
     <div>
-      <CreateEvent setEvents={setEvents}></CreateEvent>
+      <CreateEvent setEvents={setEvents} setLoading={setLoading}></CreateEvent>
+      <div className={`loading ${loading && "ativo"}`}>
+        <p>carregando...</p>
+      </div>
       <List>
         {days.map(day => {
           const dayEvents = events.filter(
@@ -57,6 +65,7 @@ const DaysList = () => {
           return (
             <Day
               setEvents={setEvents}
+              setLoading={setLoading}
               events={dayEvents}
               key={day.unix()}
               date={day}
