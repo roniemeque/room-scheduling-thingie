@@ -35,6 +35,14 @@ const DaysList = () => {
 
   useEffect(() => {
     fetchEvents();
+    window.refreshInterval = window.setInterval(() => {
+      if (!document.hidden) {
+        fetchEvents();
+      }
+    }, 10000);
+    return () => {
+      clearInterval(window.refreshInterval);
+    };
   }, []);
 
   return (
