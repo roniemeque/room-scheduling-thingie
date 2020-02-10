@@ -102,7 +102,11 @@ const Day = ({ date, events, setEvents, setLoading }) => {
     };
   });
 
-  const deleteEvent = async id => {
+  const deleteEvent = async ({ title, _id: id }) => {
+    if (!window.confirm(`Apagar '${title}'?`)) {
+      return;
+    }
+
     setLoading(true);
 
     const res = await fetch(
@@ -135,10 +139,7 @@ const Day = ({ date, events, setEvents, setLoading }) => {
           >
             <strong>{eventBlock.owner}</strong>
             <span>{eventBlock.title ? ` - ${eventBlock.title}` : ""}</span>
-            <span
-              className="apagar"
-              onClick={() => deleteEvent(eventBlock._id)}
-            >
+            <span className="apagar" onClick={() => deleteEvent(eventBlock)}>
               x
             </span>
           </EventBlock>
