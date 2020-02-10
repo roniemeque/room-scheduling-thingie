@@ -85,3 +85,7 @@ button {
   color: white;
   transform: translate(-50%, -50%);
 }
+
+.react-date-picker__calendar--open {
+  z-index: 3 !important;
+}

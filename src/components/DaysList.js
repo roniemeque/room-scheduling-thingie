@@ -10,7 +10,8 @@ const List = styled.ul`
   grid-auto-flow: column;
   grid-gap: 3.5rem;
   overflow: auto;
-  grid-template-columns: repeat(60, 20rem);
+  grid-template-columns: repeat(60, 25rem);
+  margin-top: 2rem;
 `;
 
 const DaysList = () => {
@@ -18,7 +19,7 @@ const DaysList = () => {
   const [days] = useState(
     Array.from({ length: 60 }, (_, i) =>
       moment()
-        .add(i, "days")
+        .add(i - 1, "days")
         .hour(8)
         .minute(0)
     )
@@ -44,7 +45,7 @@ const DaysList = () => {
       if (!document.hidden) {
         fetchEvents();
       }
-    }, 60000);
+    }, 120000);
     return () => {
       clearInterval(window.refreshInterval);
     };

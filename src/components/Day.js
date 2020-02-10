@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import moment from "moment";
 import PropTypes from "prop-types";
 
@@ -7,6 +7,24 @@ const convertMinutesToPercentage = (minutes, total = 720) =>
   (minutes * 100) / total;
 
 const DayStyled = styled.li`
+  ${props =>
+    props.isWeekend &&
+    css`
+      background: #ffab91;
+    `};
+  ${props =>
+    props.isToday &&
+    css`
+      background: #bce1ff;
+      @media screen and (min-width: 800px) {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+    `};
+  padding: 1rem;
+  border-radius: 3px;
   h2 {
     margin-bottom: 1.5rem;
   }
@@ -96,9 +114,12 @@ const Day = ({ date, events, setEvents, setLoading }) => {
     setEvents(data.events);
   };
 
+  const isWeekend = [0, 6].includes(date.day());
+  const isToday = date.isSame(moment(), "day");
+
   return (
-    <DayStyled>
-      <h2>{date.format("LL")}</h2>
+    <DayStyled isWeekend={isWeekend} isToday={isToday}>
+      <h2>{date.format("ddd DD MMMM")}</h2>
       <ul className="day-blocks">
         {hourBlocks.map(hourBlock => (
           <Block key={hourBlock}>

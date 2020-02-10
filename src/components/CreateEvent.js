@@ -113,7 +113,6 @@ const CreateEvent = ({ setEvents, setLoading }) => {
           maxDate={moment()
             .add("59", "days")
             .toDate()}
-          disableCalendar
         ></DatePicker>
         <TimeRangePicker
           value={time}
