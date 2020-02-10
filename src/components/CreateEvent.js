@@ -4,6 +4,10 @@ import TimeRangePicker from "@wojtekmaj/react-timerange-picker";
 import moment from "moment";
 import axios from "axios";
 import styled from "styled-components";
+import {
+  getOwnerLocalstorage,
+  setOwnerLocalstorage
+} from "../helpers/localStorage";
 
 const splitTime = time => time.split(":");
 
@@ -46,7 +50,7 @@ const CreateStyled = styled.div`
 const CreateEvent = ({ setEvents, setLoading }) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(["10:00", "11:00"]);
-  const [owner, setOwner] = useState("");
+  const [owner, setOwner] = useState(getOwnerLocalstorage());
   const [title, setTitle] = useState("");
 
   const createEvent = async e => {
@@ -70,6 +74,7 @@ const CreateEvent = ({ setEvents, setLoading }) => {
       }
     );
 
+    setOwnerLocalstorage(owner);
     setEvents(data.events);
     setLoading(false);
   };
@@ -99,12 +104,14 @@ const CreateEvent = ({ setEvents, setLoading }) => {
           onChange={e => setOwner(e.currentTarget.value)}
           placeholder="Quem reserva?"
           className="input-text"
+          value={owner}
         />
         <input
           type="text"
           onChange={e => setTitle(e.currentTarget.value)}
           placeholder="Motivo (opcional)"
           className="input-text"
+          value={title}
         />
         <DatePicker
           onChange={newDate => setDate(newDate)}
