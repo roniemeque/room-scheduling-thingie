@@ -41,15 +41,26 @@ const CreateStyled = styled.div`
     min-height: 3rem;
     border: 1px solid black;
     margin: 0 0.5rem;
+    outline: solid transparent;
+    transition: outline 0.2s;
+    padding: 0 0.5rem;
+    &:focus {
+      outline: solid #0074d9;
+    }
   }
   .react-date-picker {
     margin: 0 0.5rem;
   }
 `;
 
-const CreateEvent = ({ setEvents, setLoading }) => {
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(["10:00", "11:00"]);
+const CreateEvent = ({
+  setEvents,
+  setLoading,
+  date,
+  setDate,
+  time,
+  setTime
+}) => {
   const [owner, setOwner] = useState(getOwnerLocalstorage());
   const [title, setTitle] = useState("");
 
@@ -103,7 +114,7 @@ const CreateEvent = ({ setEvents, setLoading }) => {
           type="text"
           onChange={e => setOwner(e.currentTarget.value)}
           placeholder="Quem reserva?"
-          className="input-text"
+          className="input-text quem-input"
           value={owner}
         />
         <input

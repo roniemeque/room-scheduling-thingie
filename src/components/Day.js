@@ -36,6 +36,7 @@ const DayStyled = styled.li`
 const Block = styled.li`
   min-height: 4rem;
   display: flex;
+  transition: all 0.2s;
   .indicator {
     width: 3rem;
     display: flex;
@@ -45,6 +46,18 @@ const Block = styled.li`
   .box {
     border-bottom: 1px solid grey;
     flex: 1;
+  }
+  .sugestao {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover {
+    cursor: pointer;
+    background: #0074d9;
+    color: white;
+    .sugestao {
+      opacity: 1;
+    }
   }
 `;
 
@@ -78,7 +91,7 @@ const EventBlock = styled.div`
   }
 `;
 
-const Day = ({ date, events, setEvents, setLoading }) => {
+const Day = ({ date, events, setEvents, setLoading, setDate, setTime }) => {
   // generating 8 blocks for counting from 8h to 20h
   // since we are starting from 8, just add it
   const hourBlocks = Array.from({ length: 12 }, (_, i) => i + 8);
@@ -118,6 +131,23 @@ const Day = ({ date, events, setEvents, setLoading }) => {
     setEvents(data.events);
   };
 
+  const fillNewWithClicked = time => {
+    setDate(date.toDate());
+
+    const start = moment()
+      .hour(time)
+      .minutes(0);
+    const end = moment()
+      .hour(time + 1)
+      .minutes(0);
+
+    setTime([start.format("HH:mm"), end.format("HH:mm")]);
+
+    document.querySelector(".quem-input").focus();
+
+    //console.log(date, time, start, end);
+  };
+
   const isWeekend = [0, 6].includes(date.day());
   const isToday = date.isSame(moment(), "day");
 
@@ -126,9 +156,11 @@ const Day = ({ date, events, setEvents, setLoading }) => {
       <h2>{date.format("ddd DD MMMM")}</h2>
       <ul className="day-blocks">
         {hourBlocks.map(hourBlock => (
-          <Block key={hourBlock}>
+          <Block key={hourBlock} onClick={() => fillNewWithClicked(hourBlock)}>
             <div className="indicator">{hourBlock}</div>
-            <div className="box"></div>
+            <div className="box">
+              <span className="sugestao">Criar aqui</span>
+            </div>
           </Block>
         ))}
         {eventsBlocks.map(eventBlock => (

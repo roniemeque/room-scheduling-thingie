@@ -15,6 +15,9 @@ const List = styled.ul`
 `;
 
 const DaysList = () => {
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(["10:00", "11:00"]);
+
   // creating default days starting at 8 for comparison purposes
   const [days] = useState(
     Array.from({ length: 60 }, (_, i) =>
@@ -53,7 +56,14 @@ const DaysList = () => {
 
   return (
     <div>
-      <CreateEvent setEvents={setEvents} setLoading={setLoading}></CreateEvent>
+      <CreateEvent
+        date={date}
+        setDate={setDate}
+        time={time}
+        setTime={setTime}
+        setEvents={setEvents}
+        setLoading={setLoading}
+      ></CreateEvent>
       <div className={`loading ${loading && "ativo"}`}>
         <p>carregando...</p>
       </div>
@@ -70,6 +80,8 @@ const DaysList = () => {
               events={dayEvents}
               key={day.unix()}
               date={day}
+              setDate={setDate}
+              setTime={setTime}
             ></Day>
           );
         })}
