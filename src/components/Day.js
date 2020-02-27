@@ -40,21 +40,32 @@ const Block = styled.li`
   .indicator {
     width: 3rem;
     display: flex;
+    align-self: start;
     align-items: flex-start;
     justify-content: center;
   }
   .box {
     border-bottom: 1px solid grey;
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 2rem;
   }
   .sugestao {
     opacity: 0;
     transition: opacity 0.2s;
+    text-align: center;
+    font-size: 2rem;
   }
   &:hover {
     cursor: pointer;
-    background: #0074d9;
+    background: black;
+    border-radius: 3px;
     color: white;
+    .box {
+      border-color: transparent;
+    }
     .sugestao {
       opacity: 1;
     }
@@ -143,7 +154,13 @@ const Day = ({ date, events, setEvents, setLoading, setDate, setTime }) => {
 
     setTime([start.format("HH:mm"), end.format("HH:mm")]);
 
-    document.querySelector(".quem-input").focus();
+    const nome = document.querySelector(".quem-input");
+    const motivo = document.querySelector(".motivo-input");
+    if (!nome.value) {
+      nome.focus();
+    } else {
+      motivo.focus();
+    }
 
     //console.log(date, time, start, end);
   };

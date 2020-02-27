@@ -121,7 +121,7 @@ const CreateEvent = ({
           type="text"
           onChange={e => setTitle(e.currentTarget.value)}
           placeholder="Motivo (opcional)"
-          className="input-text"
+          className="input-text motivo-input"
           value={title}
         />
         <DatePicker
